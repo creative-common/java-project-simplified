@@ -37,6 +37,7 @@ public class Store {
 		if(checkItem(itemCode)) {
 			//Get Item Index from code and delete the product from array
 			this.storeItems.remove(getItemIndexFromCode(itemCode));
+			print("Item code " + itemCode + " deleted successfully.");
 		}else {
 			//print error
 			print("Item code " + itemCode + " don't exist.");

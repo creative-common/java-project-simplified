@@ -9,17 +9,21 @@ public class Console {
 	private Bill billClass;
 	
 	Console(){
-		storeClass = new Store();
+		storeClass = new Store();		
+	}
+	
+	public void start(){
 		if(gstTax == 0) {
 			getTaxInfo();
 		}
-				
+		
 	}
 	
 	
 	private void displayMenu() {
 		print("*************************");
 		print("Simple POS Module");
+		print("Tax percentage is: " + gstTax + "%");
 		print("*************************");
 		print("1. Add Products");
 		print("2. Delete Products");
@@ -30,7 +34,7 @@ public class Console {
 		print("7. Delete Bill Item");
 		print("8. View Bill");
 		print("Enter 1-8 to choose operation");
-		
+		consoleManager();
 	}
 	
 	private void consoleManager() {
@@ -40,12 +44,15 @@ public class Console {
 		switch(menuSelection){
 			case 1: 
 				storeConsoleManager.addStoreItem(storeClass);
+				displayMenu();
 				break;
 			case 2:
 				storeConsoleManager.deleteStoreItem(storeClass);
+				displayMenu();
 				break;
 			case 3:
 				storeConsoleManager.printStoreItems(storeClass);
+				displayMenu();
 				break;
 			case 4:
 				getTaxInfo();
@@ -55,12 +62,15 @@ public class Console {
 				break;
 			case 6:
 				storeConsoleManager.addBillItem(billClass);
+				displayMenu();
 				break;	
 			case 7:
 				storeConsoleManager.deleteBillItem(billClass);
+				displayMenu();
 				break;
 			case 8:
 				storeConsoleManager.printCurrentBill(billClass);
+				displayMenu();
 				break;
 			default:
 				print("Choose the correct option from 1-8");
@@ -70,6 +80,8 @@ public class Console {
 		
 	}
 	
+	
+	//For updating tax info
 	private void getTaxInfo() {
 		print("Please enter new tax percentage.");
 		Scanner taxInputScanner = new Scanner(System.in);
@@ -78,6 +90,8 @@ public class Console {
 		
 		//Intialize the class after taking tax value
 		billClass = new Bill(storeClass.getStoreItems(), gstTax);
+		//Show the menu
+		displayMenu();
 		
 	}
 	

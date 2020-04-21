@@ -49,14 +49,32 @@ public class Bill {
 			
 		}else {
 			
+			this.billItems.add(billItem);
+			
 			//get index value of billItemIndexValue value
 			int billItemIndexValue = getBillItemIndexFromCode(billItem.getCode());
+
+			int storeIndex =  getStoreItemIndexFromCode(billItem.getCode());
 			
-			//set the billItem name
-			this.billItems.get(billItemIndexValue).setName(this.storeItems.get(getStoreItemIndexFromCode(billItem.getCode())).getName());	
+
+			this.billItems.get(billItemIndexValue).setName(this.storeItems.get(storeIndex).getName());	
 			
+
+			//get  qty for calculating price
+			int newQuantity = billItem.getQuantity();
 			
-			this.billItems.add(billItem);
+			//get per item price 
+			
+			int perItemPrice = (int) this.storeItems.get(getStoreItemIndexFromCode(billItem.getCode())).getPrice();
+			
+			//Calculate new price
+			int newPriceTotal = perItemPrice * newQuantity;
+			
+			////set the new Price
+			this.billItems.get(billItemIndexValue).setPrice(newPriceTotal);
+			
+					
+			
 		}
 		print("Bill item added successfully!");
 		printBill();
@@ -68,6 +86,7 @@ public class Bill {
 		if(checkBillItem(itemCode)) { //If exist
 			//Get Item Index from code and delete the billItem from array
 			this.billItems.remove(getBillItemIndexFromCode(itemCode));
+			printBill();
 		}else {
 			print("Bill item not exist.");
 		}
@@ -78,12 +97,29 @@ public class Bill {
 	//Helper methods
 	
 	public void printBill() {
-		print("---------------------------------------------");
-		print("Item		Price");
+		
+		print("\n\n---------------------------------------------");
+		print("Item	  	Qty	  	Price");
 		for(int i = 0; i< this.billItems.size(); i++) {
-			print(this.billItems.get(i).getName() +"		"+ this.billItems.get(i).getPrice());
+			print(this.billItems.get(i).getName() + "		" +this.billItems.get(i).getQuantity()+ "	  	" + this.billItems.get(i).getPrice());
 		}
 		print("---------------------------------------------");
+		print("Tax:     "+taxPercentage+"%");
+		print("Tax Amount: " + calculateTax(getTotalAmount()));
+		print("Total:    $" + (getTotalAmount() + calculateTax(getTotalAmount())));
+		print("\n\n");
+	}
+	
+	private float getTotalAmount() {
+		float total = 0;
+		for(int i=0; i < this.billItems.size(); i++ ) {
+			total = total + (float) this.billItems.get(i).getPrice();
+		}
+		return total;
+	}
+	
+	private float calculateTax(float totalAmount) {
+		return (totalAmount * taxPercentage)/100;
 	}
 	
 	

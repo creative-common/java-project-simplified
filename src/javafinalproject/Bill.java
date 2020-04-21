@@ -105,7 +105,7 @@ public class Bill {
 		}
 		print("---------------------------------------------");
 		print("Tax:     "+taxPercentage+"%");
-		print("Tax Amount: " + calculateTax(getTotalAmount()));
+		print("Tax Amount: $" + calculateTax(getTotalAmount()));
 		print("Total:    $" + (getTotalAmount() + calculateTax(getTotalAmount())));
 		print("\n\n");
 	}

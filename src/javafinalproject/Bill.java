@@ -34,9 +34,13 @@ public class Bill {
 			//set the new quantity
 			this.billItems.get(earlierIndex).setQuantity(newQuantity);
 			
+			//set the billItem name
+			this.billItems.get(earlierIndex).setName(this.storeItems.get(getStoreItemIndexFromCode(billItem.getCode())).getName());	
+			
 			//get per item price 
 			
 			int perItemPrice = (int) this.storeItems.get(getStoreItemIndexFromCode(billItem.getCode())).getPrice();
+			
 			//Calculate new price
 			int newPriceTotal = perItemPrice * newQuantity;
 			
@@ -44,21 +48,36 @@ public class Bill {
 			this.billItems.get(earlierIndex).setPrice(newPriceTotal);
 			
 		}else {
+			
+			//get index value of billItemIndexValue value
+			int billItemIndexValue = getBillItemIndexFromCode(billItem.getCode());
+			
+			//set the billItem name
+			this.billItems.get(billItemIndexValue).setName(this.storeItems.get(getStoreItemIndexFromCode(billItem.getCode())).getName());	
+			
+			
 			this.billItems.add(billItem);
 		}
 		print("Bill item added successfully!");
 		printBill();
 	}
 	
-	public void deleteItem() {
-		
+	//For deleting billItem from the billItem ArrayList
+	public void deleteItem(int itemCode) {
+		//check if exist or not
+		if(checkBillItem(itemCode)) { //If exist
+			//Get Item Index from code and delete the billItem from array
+			this.billItems.remove(getBillItemIndexFromCode(itemCode));
+		}else {
+			print("Bill item not exist.");
+		}
 	}
 	
 	
 	
 	//Helper methods
 	
-	private void printBill() {
+	public void printBill() {
 		print("---------------------------------------------");
 		print("Item		Price");
 		for(int i = 0; i< this.billItems.size(); i++) {

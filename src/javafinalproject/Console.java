@@ -74,6 +74,7 @@ public class Console {
 				break;
 			default:
 				print("Choose the correct option from 1-8");
+				displayMenu();
 				break;
 		
 		}
